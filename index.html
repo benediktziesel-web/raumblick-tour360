@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raumblick Tour 360 — 360°-Rundgänge für Immobilien im Raum Regensburg</title>
+<meta name="description" content="360°-Rundgänge für Immobilien im Umkreis von Regensburg. Weniger Besichtigungstermine, mehr echtes Interesse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2521;
+    --paper:#edeae2;
+    --paper-warm:#e4e0d5;
+    --white:#ffffff;
+    --brass:#a9793e;
+    --brass-soft:#c9a06b;
+    --slate:#5c6b66;
+    --line: rgba(28,37,33,0.16);
+    --maxw: 1100px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Newsreader', serif;
+    font-weight:500;
+    margin:0;
+    letter-spacing:0.001em;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* ---- floorplan line motif (decorative, used once) ---- */
+  .plan-lines{
+    position:absolute; inset:0; pointer-events:none; overflow:hidden;
+  }
+  .plan-lines svg{width:100%; height:100%; display:block;}
+
+  /* ---- header ---- */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(237,234,226,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px; max-width:var(--maxw); margin:0 auto;
+  }
+  .wordmark{
+    font-family:'Newsreader', serif;
+    font-size:1.28rem;
+    font-weight:500;
+  }
+  .wordmark .accent{color:var(--brass);}
+  nav ul{
+    list-style:none; display:flex; gap:30px; margin:0; padding:0;
+  }
+  nav a{
+    text-decoration:none; font-size:0.95rem; color:var(--ink);
+    border-bottom:1px solid transparent;
+  }
+  nav a:hover{border-bottom-color:var(--brass);}
+  .nav-cta{
+    display:inline-block; padding:9px 18px;
+    background:var(--ink); color:var(--paper);
+    text-decoration:none; font-size:0.92rem;
+    border-radius:2px;
+  }
+  .menu-btn{display:none; background:none; border:none; font-size:1.6rem; cursor:pointer; color:var(--ink);}
+
+  /* ---- hero ---- */
+  .hero{
+    position:relative;
+    padding:100px 0 90px;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-inner{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns: 1.3fr 0.9fr; gap:60px; align-items:end;
+  }
+  .hero h1{
+    font-size:clamp(2.3rem, 4.4vw, 3.6rem);
+    line-height:1.12;
+    max-width:14ch;
+  }
+  .hero .lede{
+    margin-top:26px;
+    font-size:1.08rem;
+    color:var(--slate);
+    max-width:42ch;
+  }
+  .hero-actions{display:flex; gap:16px; margin-top:34px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--brass); color:var(--white);
+    padding:13px 26px; text-decoration:none; font-size:0.98rem;
+    border-radius:2px; font-weight:500;
+  }
+  .btn-ghost{
+    padding:13px 26px; text-decoration:none; font-size:0.98rem;
+    border:1px solid var(--ink); color:var(--ink); border-radius:2px;
+  }
+  .hero-figure{
+    border:1px solid var(--line);
+    padding:26px;
+    background:var(--white);
+  }
+  .hero-figure .label{
+    font-size:0.78rem; letter-spacing:0.02em; color:var(--slate); margin-bottom:14px;
+  }
+  .hero-figure .big{
+    font-family:'Newsreader', serif; font-size:2.6rem; color:var(--brass); line-height:1;
+  }
+  .hero-figure .cap{color:var(--slate); font-size:0.92rem; margin-top:8px;}
+  .hero-figure hr{border:none; border-top:1px solid var(--line); margin:20px 0;}
+
+  /* ---- section basics ---- */
+  section{padding:78px 0;}
+  .section-head{max-width:60ch; margin-bottom:46px;}
+  .section-head .kicker{
+    font-size:0.85rem; color:var(--brass); margin-bottom:10px; font-weight:500;
+  }
+  .section-head h2{font-size:clamp(1.7rem, 2.6vw, 2.3rem); line-height:1.2;}
+  .section-head p{color:var(--slate); margin-top:14px; font-size:1.02rem;}
+
+  /* ---- warum ---- */
+  .warum{background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .warum-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:36px;
+  }
+  .warum-card h3{font-size:1.15rem; margin-bottom:10px;}
+  .warum-card p{color:var(--slate); font-size:0.98rem;}
+  .warum-card .mark{
+    display:inline-block; width:34px; height:2px; background:var(--brass); margin-bottom:18px;
+  }
+
+  /* ---- leistungen ---- */
+  .service-block{
+    display:grid; grid-template-columns: 0.9fr 1.6fr; gap:44px;
+    padding:44px 0; border-top:1px solid var(--line);
+  }
+  .service-block:last-child{border-bottom:1px solid var(--line);}
+  .service-num{font-family:'Newsreader', serif; font-size:1rem; color:var(--brass);}
+  .service-head h3{font-size:1.5rem; margin-top:8px;}
+  .service-head p{color:var(--slate); margin-top:10px; font-size:0.98rem;}
+
+  table.price{width:100%; border-collapse:collapse; font-size:0.96rem;}
+  table.price th{
+    text-align:left; font-weight:500; color:var(--slate); font-size:0.82rem;
+    padding-bottom:10px; border-bottom:1px solid var(--ink);
+  }
+  table.price td{
+    padding:14px 0; border-bottom:1px solid var(--line); vertical-align:top;
+  }
+  table.price td.amount{
+    text-align:right; font-family:'Newsreader', serif; font-size:1.08rem; white-space:nowrap;
+  }
+  table.price tr.extra td{color:var(--slate); font-size:0.92rem;}
+
+  .badge-soon{
+    display:inline-block; margin-left:10px; font-size:0.72rem;
+    border:1px solid var(--brass-soft); color:var(--brass);
+    padding:2px 8px; border-radius:20px; vertical-align:middle;
+  }
+
+  /* ---- anfahrt ---- */
+  .anfahrt{background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .anfahrt-inner{display:grid; grid-template-columns: 0.9fr 1.6fr; gap:44px;}
+  table.travel{width:100%; border-collapse:collapse; font-size:0.96rem;}
+  table.travel th{
+    text-align:left; font-weight:500; color:var(--slate); font-size:0.82rem;
+    padding-bottom:10px; border-bottom:1px solid var(--ink);
+  }
+  table.travel td{padding:13px 0; border-bottom:1px solid var(--line);}
+  table.travel td.amount{text-align:right; white-space:nowrap;}
+  .radius-note{margin-top:18px; font-size:0.9rem; color:var(--slate);}
+
+  /* ---- über mich ---- */
+  .about-inner{
+    display:grid; grid-template-columns: 1fr 1fr; gap:56px; align-items:center;
+  }
+  .about-figure{
+    border:1px solid var(--line); background:var(--white);
+    padding:34px; position:relative;
+  }
+  .about-figure .icon-row{display:flex; gap:22px; margin-bottom:22px; font-size:1.6rem;}
+  .about p{color:var(--slate); font-size:1.02rem; margin-top:16px;}
+
+  /* ---- kontakt ---- */
+  .kontakt{
+    background:var(--ink); color:var(--paper);
+  }
+  .kontakt .section-head h2{color:var(--paper);}
+  .kontakt .section-head p{color:#b9c2bd;}
+  .kontakt-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px;}
+  .kontakt-info a{
+    display:block; font-family:'Newsreader', serif; font-size:1.3rem; margin-bottom:10px;
+    text-decoration:none; color:var(--paper); border-bottom:1px solid transparent;
+  }
+  .kontakt-info a:hover{border-bottom-color:var(--brass-soft);}
+  .kontakt-info .zone{margin-top:26px; font-size:0.92rem; color:#b9c2bd;}
+  form{display:flex; flex-direction:column; gap:14px;}
+  form input, form textarea{
+    background:transparent; border:1px solid #45514c; color:var(--paper);
+    padding:12px 14px; font-family:'IBM Plex Sans', sans-serif; font-size:0.96rem;
+    border-radius:2px;
+  }
+  form input::placeholder, form textarea::placeholder{color:#8a9691;}
+  form button{
+    background:var(--brass); color:var(--white); border:none; padding:13px 22px;
+    font-size:0.98rem; cursor:pointer; border-radius:2px; align-self:flex-start; margin-top:4px;
+  }
+
+  footer{
+    background:var(--ink); color:#8a9691; padding:24px 0; font-size:0.85rem;
+    border-top:1px solid #33403b;
+  }
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  @media (max-width: 860px){
+    nav ul{display:none;}
+    .menu-btn{display:block;}
+    .hero-inner{grid-template-columns:1fr;}
+    .warum-grid{grid-template-columns:1fr; gap:34px;}
+    .service-block{grid-template-columns:1fr; gap:22px;}
+    .anfahrt-inner{grid-template-columns:1fr; gap:22px;}
+    .about-inner{grid-template-columns:1fr;}
+    .kontakt-grid{grid-template-columns:1fr;}
+    table.price td.amount, table.travel td.amount{text-align:left; padding-top:2px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="wordmark">Raumblick <span class="accent">Tour 360</span></div>
+    <nav><ul>
+      <li><a href="#warum">Warum</a></li>
+      <li><a href="#leistungen">Leistungen</a></li>
+      <li><a href="#anfahrt">Anfahrt</a></li>
+      <li><a href="#ueber-mich">Über mich</a></li>
+    </ul></nav>
+    <a class="nav-cta" href="#kontakt">Anfrage senden</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="plan-lines" aria-hidden="true">
+    <svg viewBox="0 0 1200 500" preserveAspectRatio="none">
+      <g stroke="rgba(28,37,33,0.10)" stroke-width="1" fill="none">
+        <rect x="760" y="60" width="360" height="260"/>
+        <rect x="850" y="60" width="270" height="140"/>
+        <line x1="850" y1="200" x2="1120" y2="200"/>
+        <line x1="940" y1="60" x2="940" y2="320"/>
+        <circle cx="860" cy="80" r="6"/>
+        <line x1="700" y1="430" x2="1180" y2="430"/>
+        <line x1="700" y1="410" x2="700" y2="450"/>
+        <line x1="1180" y1="410" x2="1180" y2="450"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap hero-inner">
+    <div>
+      <h1>Bevor der erste Interessent klingelt, hat er Ihr Zuhause schon betreten.</h1>
+      <p class="lede">360°-Rundgänge für Immobilien im Raum Regensburg. Weniger Leerlauftermine, mehr Interessenten, die Ihr Objekt schon kennen, bevor sie es betreten.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#kontakt">Termin anfragen</a>
+        <a class="btn-ghost" href="#leistungen">Leistungen & Preise</a>
+      </div>
+    </div>
+    <div class="hero-figure">
+      <div class="label">Einsatzgebiet</div>
+      <div class="big">30 km</div>
+      <div class="cap">rund um Regensburg</div>
+      <hr>
+      <div class="label">Lieferzeit</div>
+      <div class="big">3–5 Tage</div>
+      <div class="cap">fertiger Rundgang, Express in 48 h möglich</div>
+    </div>
+  </div>
+</section>
+
+<section class="warum" id="warum">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Warum ein virtueller Rundgang</div>
+      <h2>Ein Rundgang, der für Sie vorsortiert.</h2>
+      <p>Als Vermieter oder Verkäufer verbringen Sie viel Zeit mit Besichtigungen, bei denen sich Interessenten erst vor Ort ein Bild machen. Ein 360°-Rundgang dreht diese Reihenfolge um.</p>
+    </div>
+    <div class="warum-grid">
+      <div class="warum-card">
+        <span class="mark"></span>
+        <h3>Weniger Leerlauftermine</h3>
+        <p>Wer schon online durch die Räume gegangen ist, kommt nur noch, wenn echtes Interesse besteht. Das spart Ihnen Abende und Wochenenden.</p>
+      </div>
+      <div class="warum-card">
+        <span class="mark"></span>
+        <h3>Das Objekt im besten Licht</h3>
+        <p>Raumhöhe, Lichteinfall, Wegeführung — Dinge, die auf Fotos verloren gehen, wirken im Rundgang so, wie man sie vor Ort erlebt.</p>
+      </div>
+      <div class="warum-card">
+        <span class="mark"></span>
+        <h3>Vorfreude statt Vorstellungskraft</h3>
+        <p>Ein früher Einblick weckt echtes Interesse an der Immobilie, statt es aus Grundriss und Textbeschreibung erraten zu müssen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="leistungen">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Leistungen</div>
+      <h2>Klar kalkuliert, ohne Preis auf Anfrage.</h2>
+      <p>Transparente Preise, damit Sie vorab wissen, woran Sie sind — das ist in der Branche keine Selbstverständlichkeit.</p>
+    </div>
+
+    <div class="service-block">
+      <div class="service-head">
+        <div class="service-num">01</div>
+        <h3>360°-Rundgang für Ihre Immobilie</h3>
+        <p>Aufnahme vor Ort, Aufbereitung und ein fertiger, klickbarer Rundgang mit Grundriss-Navigation und Hotspots — bereit zum Einbetten in Ihr Exposé oder Ihre Anzeige.</p>
+      </div>
+      <table class="price">
+        <tr><th>Objekt</th><th>&nbsp;</th><th class="amount">Preis</th></tr>
+        <tr><td>Basis-Tour — Wohnung bis ca. 80 m², 3–5 Räume</td><td></td><td class="amount">149–199 €</td></tr>
+        <tr><td>Mittleres Objekt — Haus bis ca. 150 m²</td><td></td><td class="amount">199–299 €</td></tr>
+        <tr><td>Großes Objekt / Gewerbe</td><td></td><td class="amount">299–449 €</td></tr>
+        <tr class="extra"><td>Express-Lieferung (fertig in 48 h)</td><td></td><td class="amount">+ 30–50 €</td></tr>
+        <tr class="extra"><td>Grundrisserstellung <span class="badge-soon">demnächst</span></td><td></td><td class="amount">—</td></tr>
+      </table>
+    </div>
+
+    <div class="service-block">
+      <div class="service-head">
+        <div class="service-num">02</div>
+        <h3>Bereitstellung der Fotos</h3>
+        <p>Neben dem Rundgang erhalten Sie hochwertige Einzelfotos für Exposé und Online-Anzeigen sowie die dauerhafte Bereitstellung Ihres Rundgangs über einen eigenen Link.</p>
+      </div>
+      <table class="price">
+        <tr><th>Leistung</th><th>&nbsp;</th><th class="amount">Preis</th></tr>
+        <tr><td>Klassische Fotos, Innen & Außen (Zusatz)</td><td></td><td class="amount">+ 50–100 €</td></tr>
+        <tr><td>Bereitstellung des Rundgangs — 1. Jahr</td><td></td><td class="amount">inklusive</td></tr>
+        <tr class="extra"><td>Bereitstellung ab dem 2. Jahr</td><td></td><td class="amount">29–49 € / Jahr</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="anfahrt" id="anfahrt">
+  <div class="wrap anfahrt-inner">
+    <div class="section-head" style="margin-bottom:0;">
+      <div class="kicker">Anfahrt</div>
+      <h2>Fair gestaffelt nach Entfernung.</h2>
+      <p>Alle Preise verstehen sich für die einfache Strecke ab meinem Standort in Regensburg.</p>
+    </div>
+    <div>
+      <table class="travel">
+        <tr><th>Entfernung (einfach)</th><th class="amount">Kosten</th></tr>
+        <tr><td>0–15 km</td><td class="amount">inklusive</td></tr>
+        <tr><td>16–30 km</td><td class="amount">0,30 €/km (Hin- & Rückfahrt)</td></tr>
+        <tr><td>31–50 km</td><td class="amount">0,35 €/km (Hin- & Rückfahrt)</td></tr>
+        <tr><td>ab 50 km</td><td class="amount">Pauschalangebot auf Anfrage</td></tr>
+      </table>
+      <p class="radius-note">Mein reguläres Einsatzgebiet liegt im Umkreis von 30 km um Regensburg. Weitere Entfernungen sind auf Anfrage möglich.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="ueber-mich">
+  <div class="wrap about-inner">
+    <div>
+      <div class="section-head" style="margin-bottom:0;">
+        <div class="kicker">Über mich</div>
+        <h2>Regensburg ist mein Zuhause — nicht nur mein Einsatzgebiet.</h2>
+      </div>
+      <p>Ich bin 34, Vater von zwei Kindern und habe einen Hund — Zuhause zu sein bedeutet mir etwas, und genau das versuche ich in jeden Rundgang zu bringen: ein Gefühl dafür, wie es ist, dort zu wohnen.</p>
+      <p>Als Ein-Personen-Betrieb übernehme ich Aufnahme, Bearbeitung und Bereitstellung selbst — persönlich, zuverlässig und ohne Umwege über eine Agentur.</p>
+    </div>
+    <div class="about-figure">
+      <div class="icon-row" aria-hidden="true">👨‍👧‍👦 🐾 🏠</div>
+      <p style="margin-top:0; color:var(--slate); font-size:0.98rem;">Persönlicher Ansprechpartner vom ersten Anruf bis zum fertigen Rundgang — keine Warteschleife, kein Callcenter.</p>
+    </div>
+  </div>
+</section>
+
+<section class="kontakt" id="kontakt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Kontakt</div>
+      <h2>Rundgang anfragen</h2>
+      <p>Kurze Nachricht mit Objektgröße und Wunschtermin genügt — ich melde mich zeitnah zurück.</p>
+    </div>
+    <div class="kontakt-grid">
+      <div class="kontakt-info">
+        <a href="mailto:info@raumblick-tour360.de">info@raumblick-tour360.de</a>
+        <a href="tel:+49000000000">0176 — noch einzutragen</a>
+        <div class="zone">Einsatzgebiet: 30 km um Regensburg<br>Basis-Tour ab 149 €</div>
+      </div>
+      <form action="mailto:info@raumblick-tour360.de" method="post" enctype="text/plain">
+        <input type="text" name="name" placeholder="Ihr Name" required>
+        <input type="email" name="email" placeholder="E-Mail-Adresse" required>
+        <input type="text" name="objekt" placeholder="Objektart & ungefähre Größe">
+        <textarea name="nachricht" placeholder="Ihre Nachricht" rows="4"></textarea>
+        <button type="submit">Anfrage senden</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Raumblick Tour 360 — Regensburg</div>
+    <div>Impressum · Datenschutz</div>
+  </div>
+</footer>
+
+</body>
+</html>
