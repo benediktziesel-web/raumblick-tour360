@@ -255,3 +255,11 @@
   text-decoration:none; color:var(--slate); border-bottom:1px solid var(--line);
 }
 .back-link:hover{color:var(--brass); border-bottom-color:var(--brass);}
+
+.hero-logo {
+  display: block;
+  width: clamp(90px, 20vw, 160px);
+  max-width: 60%;
+  height: auto;
+  margin: 0 auto 20px auto;
+}
